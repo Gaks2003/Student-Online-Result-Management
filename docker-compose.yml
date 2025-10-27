@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  # PHP Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/vendor
+      - /var/www/html/node_modules
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=srms
+      - DB_USERNAME=root
+      - DB_PASSWORD=rootpassword
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - srms-network
+
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: srms
+      MYSQL_USER: srms_user
+      MYSQL_PASSWORD: srms_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./db/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - srms-network
+
+  # phpMyAdmin (optional - for database management)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: rootpassword
+      MYSQL_ROOT_PASSWORD: rootpassword
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - srms-network
+
+  # Redis (optional - for caching/sessions)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - srms-network
+
+volumes:
+  mysql_data:
+  redis_data:
+
+networks:
+  srms-network:
+    driver: bridge

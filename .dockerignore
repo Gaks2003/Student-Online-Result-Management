@@ -1,0 +1,64 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+README.md
+CONTRIBUTING.md
+LICENSE
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Development files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Dependencies (will be installed in container)
+vendor/
+node_modules/
+
+# Build artifacts
+css/dist/
+js/dist/
+sass/dist/
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.cache
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Database files (should be created fresh)
+*.sqlite
+*.sqlite3
+db/*.sqlite
+
+# Backup files
+*.bak
+*.backup
+
+# Test files
+tests/
+phpunit.xml
+
+# Deployment artifacts
+*.tar.gz
+
+# Environment files (create your own)
+.env
+.env.local

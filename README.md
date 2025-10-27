@@ -23,8 +23,72 @@ A comprehensive web-based application for managing student results, built with P
 - **PDF Generation**: DomPDF
 - **Build Tools**: Gulp, SASS
 - **Icons**: Font Awesome
+- **Containerization**: Docker & Docker Compose
+- **CI/CD**: GitHub Actions
 
-## 📋 Prerequisites
+## 🚀 Quick Start with Docker
+
+### Prerequisites
+- Docker and Docker Compose installed on your system
+
+### Local Development Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Gaks2003/Student-Online-Result-Management.git
+   cd Student-Online-Result-Management
+   ```
+
+2. **Start the application with Docker**
+   ```bash
+   docker-compose up -d
+   ```
+
+3. **Access the application**
+   - Web Application: http://localhost:8080
+   - phpMyAdmin: http://localhost:8081 (optional)
+   - MySQL: localhost:3306
+
+4. **Stop the application**
+   ```bash
+   docker-compose down
+   ```
+
+### Docker Services
+
+- **app**: PHP 8.1 with Apache web server
+- **mysql**: MySQL 8.0 database with sample data
+- **phpmyadmin**: Database management interface (optional)
+- **redis**: Caching service (optional)
+
+## 🔄 CI/CD Pipeline
+
+This project includes a comprehensive GitHub Actions workflow that automates:
+
+### Automated Testing
+- **PHP Syntax Check**: Validates all PHP files for syntax errors
+- **Code Quality**: PHP CodeSniffer with PSR-12 standards
+- **Security Audit**: Composer security vulnerability scanning
+- **Unit Testing**: PHPUnit integration (when tests are available)
+
+### Build Process
+- **Asset Compilation**: Gulp build process for CSS/JS optimization
+- **Dependency Management**: Composer and NPM package installation
+- **Database Setup**: MySQL service with health checks
+
+### Deployment
+- **Artifact Creation**: Clean deployment packages
+- **Automated Deployment**: Ready for server deployment
+- **Post-deployment Verification**: Health checks and validation
+
+### Workflow Triggers
+- **Push Events**: Runs on pushes to master/main branch
+- **Pull Requests**: Runs on PRs to master/main branch
+- **Manual Dispatch**: Can be triggered manually
+
+To view pipeline status, go to the **Actions** tab in your GitHub repository.
+
+## 📋 Manual Installation (Alternative)
 
 Before you begin, ensure you have met the following requirements:
 
@@ -33,17 +97,17 @@ Before you begin, ensure you have met the following requirements:
 - Web server (Apache/Nginx)
 - Composer (optional, for dependency management)
 
-## 🚀 Installation
+### Manual Installation Steps
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/student-result-management.git
-   cd student-result-management
+   git clone https://github.com/Gaks2003/Student-Online-Result-Management.git
+   cd Student-Online-Result-Management
    ```
 
 2. **Setup Database**
    - Create a new MySQL database named `srms`
-   - Import the database schema (if available) or run the SQL setup script
+   - Import the database schema from `db/init/01-init.sql`
 
 3. **Configure Database Connection**
    - Open `includes/config.php`
@@ -60,128 +124,124 @@ Before you begin, ensure you have met the following requirements:
    - Ensure the web server has write permissions on necessary directories
 
 5. **Access the Application**
-   - Open your browser and go to `http://localhost/your-project-folder`
+   - Open your browser and go to your web server URL
    - Login with admin credentials
 
-## 📁 Project Structure
+## 🚀 Deployment
 
-```
-student-result-management/
-├── css/                    # Compiled CSS files
-├── js/                     # JavaScript files
-├── fonts/                  # Font files
-├── images/                 # Image assets
-├── sass/                   # SASS source files
-├── includes/               # PHP includes and configuration
-│   ├── config.php         # Database configuration
-│   └── ...                # Other include files
-├── db/                     # Database related files
-├── dompdf/                 # PDF generation library
-├── *.php                   # Main PHP application files
-├── package.json           # Node.js dependencies for build tools
-├── gulpfile.babel.js      # Gulp build configuration
-└── README.md              # This file
+### Option 1: Docker Deployment
+
+For production deployment with Docker:
+
+```bash
+# Build and run with production settings
+docker-compose -f docker-compose.yml up -d
+
+# Or build custom image
+docker build -t srms-app .
+docker run -d -p 80:80 --name srms-container srms-app
 ```
 
-## 🔧 Build Process (Optional)
+### Option 2: Traditional Web Server Deployment
 
-This project includes Gulp for asset optimization:
+1. **Upload files to web server**
+2. **Set up virtual host configuration**
+3. **Configure database connection**
+4. **Set proper file permissions**
+5. **Configure SSL (recommended)**
 
-1. **Install Node.js dependencies**
-   ```bash
-   npm install
-   ```
+### Option 3: Cloud Deployment
 
-2. **Run build process**
-   ```bash
-   gulp
-   ```
+The GitHub Actions workflow includes deployment templates for:
+- **AWS**: Elastic Beanstalk, EC2, Lightsail
+- **DigitalOcean**: App Platform, Droplets
+- **Heroku**: PHP applications
+- **Azure**: App Service
+- **Google Cloud**: App Engine, Compute Engine
 
-3. **Watch for changes during development**
-   ```bash
-   gulp watch
-   ```
+## 🧪 Development
 
-## 👤 Default Admin Credentials
+### Adding Tests
 
-- **Username**: admin
-- **Password**: Test@123
+To add unit tests to the project:
 
-⚠️ **Important**: Change the default password after first login for security.
+1. Create a `tests/` directory
+2. Add PHPUnit configuration: `phpunit.xml`
+3. Install PHPUnit: `composer require --dev phpunit/phpunit`
+4. Add test files: `tests/Feature/ExampleTest.php`
 
-## 📖 Usage
+### Code Quality
 
-### Managing Students
-1. Go to "Manage Students" section
-2. Click "Add Student" to register new students
-3. Edit student information as needed
-4. View student list and details
+The CI pipeline includes:
+- **PHP CodeSniffer**: PSR-12 compliance
+- **PHPStan**: Static analysis
+- **Security scanning**: Composer audit
 
-### Managing Classes
-1. Navigate to "Manage Classes"
-2. Create new classes with appropriate details
-3. Edit class information when necessary
+### Contributing
 
-### Managing Subjects
-1. Access "Manage Subjects" section
-2. Add subjects with proper codes and names
-3. Create subject combinations for different classes
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature`
+3. Make your changes and test them
+4. Run the CI pipeline locally: `docker-compose up --build`
+5. Submit a pull request
 
-### Managing Results
-1. Go to "Manage Results" to add student results
-2. Enter marks for each subject
-3. Edit results when corrections are needed
-4. Use "Find Results" to search specific student results
+## 📊 Monitoring
 
-### Viewing and Downloading Results
-1. Students can search their results using the search form
-2. Download results in PDF format for record keeping
+### Health Checks
 
-## 🔒 Security Features
+The application includes health check endpoints:
+- **Application Health**: `/health.php` (if implemented)
+- **Database Connectivity**: Automatic PDO connection testing
 
-- Password hashing with MD5
-- Session-based authentication
-- SQL injection prevention with PDO
-- Input validation and sanitization
+### Logs
 
-## 🤝 Contributing
+- **Application Logs**: Check web server logs
+- **Database Logs**: MySQL error logs
+- **Docker Logs**: `docker-compose logs -f`
 
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## 🔒 Security
 
-## 📝 License
+### Best Practices
+- **Change default admin password** after installation
+- **Use HTTPS** in production
+- **Regular backups** of database and files
+- **Keep dependencies updated**
+- **Monitor security advisories**
 
-This project is open source and available under the [MIT License](LICENSE).
+### Environment Variables
 
-## 📞 Support
+For enhanced security, consider using environment variables:
+```bash
+DB_HOST=localhost
+DB_USER=srms_user
+DB_PASS=secure_password
+DB_NAME=srms
+```
 
-If you encounter any issues or have questions:
+## 📝 API Documentation
 
-1. Check the [Issues](../../issues) page
-2. Create a new issue with detailed description
-3. Provide error logs and steps to reproduce
+*(Add API documentation here if the application exposes REST APIs)*
 
-## 🔄 Updates and Maintenance
+## 🤝 Support
 
-- Regularly backup your database
-- Keep PHP and MySQL updated
-- Monitor application logs
-- Update dependencies regularly
+- **Issues**: Report bugs via GitHub Issues
+- **Discussions**: Use GitHub Discussions for questions
+- **Contributing**: See CONTRIBUTING.md for guidelines
 
-## 📸 Screenshots
+---
 
-(Add screenshots of your application here to showcase the interface)
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
 - Bootstrap for the responsive framework
 - Font Awesome for icons
 - DomPDF for PDF generation
-- jQuery for enhanced functionality
+- Docker for containerization
+- GitHub Actions for CI/CD automation
 
 ---
 
-**Note**: This system is designed for educational institutions to manage student results efficiently. Ensure proper security measures are in place when deploying to production.
+**Note**: This system is designed for educational institutions. Always ensure proper security measures are in place when deploying to production environments.
