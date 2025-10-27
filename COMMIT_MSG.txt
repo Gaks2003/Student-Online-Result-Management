@@ -1,0 +1,13 @@
+feat: modernize build system - Dart Sass, Node.js 20, Gulp 5
+
+- Replace node-sass with modern sass (Dart Sass) package
+- Update Node.js requirement to >=20.0.0 for CI compatibility
+- Upgrade to Gulp 5 syntax with gulp.series() and gulp.parallel()
+- Update autoprefixer configuration to overrideBrowserslist
+- Add dynamic imports for ES module compatibility
+- Modernize babel dependencies (@babel/core, @babel/preset-env)
+- Update graceful-fs and other deprecated packages
+- Add comprehensive CI cleanup steps in GitHub Actions
+- Create new gulpfile.js with modern build pipeline
+
+Resolves node-sass build failures and ensures future Node.js compatibility

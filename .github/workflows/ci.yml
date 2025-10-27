@@ -153,15 +153,8 @@ jobs:
     - name: Create deployment artifact
       run: |
         mkdir -p deployment
-        cp -r . deployment/
-        # Remove development files from deployment
-        rm -rf deployment/.git
-        rm -rf deployment/.github
-        rm -rf deployment/node_modules
-        rm -rf deployment/tests
-        rm -rf deployment/.gitignore
-        rm -rf deployment/README.md
-        rm -rf deployment/CONTRIBUTING.md
+        # Use rsync to avoid recursive copy issues
+        rsync -av --exclude='deployment' --exclude='.git' --exclude='.github' --exclude='node_modules' --exclude='tests' --exclude='.gitignore' ./ deployment/
         # Create deployment package
         tar -czf student-result-management.tar.gz -C deployment .
         echo "Deployment package created: student-result-management.tar.gz"
