@@ -34,7 +34,7 @@ jobs:
         tools: composer:v2
 
     - name: Cache Composer packages
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.composer/cache
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
@@ -135,7 +135,7 @@ jobs:
         echo "Deployment package created: student-result-management.tar.gz"
 
     - name: Upload deployment artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: student-result-management-${{ github.sha }}
         path: student-result-management.tar.gz
@@ -148,7 +148,7 @@ jobs:
 
     steps:
     - name: Download deployment artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: student-result-management-${{ github.sha }}
 
