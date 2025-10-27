@@ -1,8 +1,7 @@
-// generated on 2016-07-09 using generator-webapp 2.0.0
-import gulp from 'gulp';
-import gulpLoadPlugins from 'gulp-load-plugins';
-import browserSync from 'browser-sync';
-import del from 'del';
+const gulp = require('gulp');
+const gulpLoadPlugins = require('gulp-load-plugins');
+const browserSync = require('browser-sync');
+const sass = require('sass');
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
@@ -12,12 +11,13 @@ gulp.task('styles', () => {
   return gulp.src('sass/*.scss')
     .pipe($.plumber())
     .pipe($.sourcemaps.init())
-    .pipe($.sass.sync({
+    .pipe($.sass({
+      implementation: sass,
       outputStyle: 'expanded',
       precision: 10,
       includePaths: ['.']
     }).on('error', $.sass.logError))
-    .pipe($.autoprefixer({browsers: ['> 1%', 'last 2 versions', 'Firefox ESR']}))
+    .pipe($.autoprefixer({overrideBrowserslist: ['> 1%', 'last 2 versions', 'Firefox ESR']}))
     .pipe($.sourcemaps.write())
     .pipe(gulp.dest('css'))
     .pipe($.cssnano())
@@ -54,11 +54,11 @@ gulp.task('lint', lint('js/*.js'));
 
 // Uncomment following if you want to minify HTML files
 /*
-gulp.task('html', ['styles', 'scripts'], () => {
+gulp.task('html', gulp.series('styles', 'scripts', () => {
   return gulp.src('*.html')
     .pipe($.htmlmin({collapseWhitespace: true}))
     .pipe(gulp.dest('minified-html'));
-});
+}));
 */
 
 // Task to minify images
@@ -75,7 +75,7 @@ gulp.task('images', () => {
 });
 
 // Task to serve everything with browserSync (except images)
-gulp.task('serve', ['styles', 'scripts'], () => {
+gulp.task('serve', gulp.series('styles', 'scripts', () => {
   browserSync({
     notify: false,
     port: 9000,
@@ -90,10 +90,8 @@ gulp.task('serve', ['styles', 'scripts'], () => {
     'fonts/**/*'
   ]).on('change', reload);
 
-  gulp.watch('sass/**/*.scss', ['styles']);
-  gulp.watch('js/**/*.js', ['scripts']);
-});
+  gulp.watch('sass/**/*.scss', gulp.series('styles'));
+  gulp.watch('js/**/*.js', gulp.series('scripts'));
+}));
 
-gulp.task('default', () => {
-  gulp.start('serve');
-});
+gulp.task('default', gulp.series('serve'));

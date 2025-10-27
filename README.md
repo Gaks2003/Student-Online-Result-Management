@@ -16,12 +16,13 @@ A comprehensive web-based application for managing student results, built with P
 
 ## 🛠️ Technology Stack
 
-- **Backend**: PHP 7+
-- **Database**: MySQL
+- **Backend**: PHP 8.1+
+- **Database**: MySQL 8.0+
 - **Frontend**: HTML5, CSS3, JavaScript
 - **Framework**: Bootstrap 4
+- **CSS Preprocessor**: SASS (Dart Sass)
 - **PDF Generation**: DomPDF
-- **Build Tools**: Gulp, SASS
+- **Build Tools**: Gulp, Node.js 20+
 - **Icons**: Font Awesome
 - **Containerization**: Docker & Docker Compose
 - **CI/CD**: GitHub Actions
@@ -123,9 +124,82 @@ Before you begin, ensure you have met the following requirements:
    - Upload all files to your web server
    - Ensure the web server has write permissions on necessary directories
 
-5. **Access the Application**
-   - Open your browser and go to your web server URL
-   - Login with admin credentials
+5. **Build Assets (Optional)**
+   - For development with live reloading:
+     ```bash
+     npm install
+     npx gulp serve
+     ```
+   - For production builds:
+     ```bash
+     npm install
+     npx gulp styles
+     npx gulp scripts
+     ```
+
+## 🛠️ Development Setup
+
+### Prerequisites for Development
+- Node.js 20.0.0 or higher
+- NPM 8.0.0 or higher
+- PHP 8.1 or higher
+- MySQL 8.0 or higher
+
+### Asset Compilation
+
+This project uses Gulp for asset compilation and optimization:
+
+1. **Install Node.js dependencies**
+   ```bash
+   npm install
+   ```
+
+2. **Compile SASS files**
+   ```bash
+   npx gulp styles
+   ```
+   This compiles `sass/*.scss` files to `css/` directory with minification.
+
+3. **Minify JavaScript files**
+   ```bash
+   npx gulp scripts
+   ```
+
+4. **Development server with live reload**
+   ```bash
+   npx gulp serve
+   ```
+   Starts BrowserSync on http://localhost:9000 with live reloading.
+
+### Build Configuration
+
+- **SASS Source**: `sass/` directory
+- **CSS Output**: `css/` directory (compiled and minified)
+- **JavaScript Source**: `js/` directory
+- **JavaScript Output**: `js/*.min.js` files
+- **Gulpfile**: `gulpfile.js` (uses modern sass package and dynamic imports)
+
+### Troubleshooting Build Issues
+
+If you encounter node-sass related errors:
+
+1. **Clean build artifacts**
+   ```bash
+   rm -rf node_modules package-lock.json
+   npm cache clean --force
+   npm install
+   ```
+
+2. **Verify Node.js version**
+   ```bash
+   node --version  # Should be 20.0.0 or higher
+   ```
+
+3. **Check sass compilation**
+   ```bash
+   npx sass --version
+   npx sass sass/main.scss css/main.css
+   ```
 
 ## 🚀 Deployment
 
